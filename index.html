@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Quiz</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #6dd5ed, #2193b0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .quiz-box {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      padding: 25px 30px;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .quiz-box h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      color: #333;
+    }
+
+    .option-btn {
+      display: block;
+      background: #f2f2f2;
+      border: none;
+      padding: 12px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .option-btn:hover {
+      background-color: #d0eaff;
+    }
+
+    .score-display {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-box">
+    <h2 id="question">Loading question...</h2>
+    <div id="choices"></div>
+    <div class="score-display" id="score"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "What is the capital city of Australia?",
+        options: ["Sydney", "Melbourne", "Canberra", "Perth"],
+        answer: 2
+      },
+      {
+        q: "Which gas do plants absorb from the atmosphere?",
+        options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+        answer: 1
+      },
+      {
+        q: "Who painted the Mona Lisa?",
+        options: ["Vincent Van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Michelangelo"],
+        answer: 1
+      }
+    ];
+
+    let index = 0;
+    let score = 0;
+
+    const questionText = document.getElementById('question');
+    const choicesContainer = document.getElementById('choices');
+    const scoreDisplay = document.getElementById('score');
+
+    function displayQuestion() {
+      if (index >= questions.length) {
+        questionText.textContent = "You've finished the quiz!";
+        choicesContainer.innerHTML = '';
+        scoreDisplay.textContent = `Final Score: ${score} out of ${questions.length}`;
+        return;
+      }
+
+      const current = questions[index];
+      questionText.textContent = current.q;
+      choicesContainer.innerHTML = '';
+
+      current.options.forEach((option, i) => {
+        const btn = document.createElement('button');
+        btn.classList.add('option-btn');
+        btn.textContent = option;
+        btn.addEventListener('click', () => {
+          if (i === current.answer) score++;
+          index++;
+          displayQuestion();
+        });
+        choicesContainer.appendChild(btn);
+      });
+    }
+
+    displayQuestion();
+  </script>
+</body>
+</html>
